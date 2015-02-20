@@ -1,0 +1,11 @@
+/.coverage
+/coverage.xml
+
+# Python
+*.py[cod]
+build/
+dist/
+*.egg-info/
+
+# Editor
+*.swp

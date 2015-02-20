@@ -4,7 +4,8 @@
 import time
 
 from .consts import POLICY_KIND
-from .base import Policy, PolicyFactory, PolicyError
+from .error import PolicyError
+from .base import Policy, PolicyFactory
 
 
 class GenerationedPolicy(Policy):

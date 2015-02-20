@@ -2,6 +2,7 @@
 
 
 __all__ = ['PolicyError'
+           'chained_policy', 'silent_check'
            'Policy', 'PolicyFactory',
            'RatedPolicy', 'RatedPolicyFactory',
            'TimedPolicy', 'TimedPolicyFactory',
@@ -10,6 +11,7 @@ __all__ = ['PolicyError'
            'SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'POLICY_KIND']
 
 
+from .utils import chained_policy, silent_check        # NOQA
 from .error import PolicyError                         # NOQA
 from .base import Policy, PolicyFactory                # NOQA
 from .rated import RatedPolicy, RatedPolicyFactory     # NOQA

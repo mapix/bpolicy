@@ -21,7 +21,7 @@ class Policy(object):
 
     def _gen_memcache_key(self, mc_prefix, identity):
         return '{mc_prefix}{service}:{kind}:{factory_signature}:{identity}'.format(
-            mc_prefix=self.mc_prefix,
+            mc_prefix=self.factory.mc_prefix,
             service=self.service,
             kind=self.kind,
             factory_signature=self._gen_factory_signature(),

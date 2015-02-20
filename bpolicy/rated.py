@@ -2,7 +2,8 @@
 
 
 from .consts import POLICY_KIND
-from .base import Policy, PolicyFactory, PolicyError
+from .error import PolicyError
+from .base import Policy, PolicyFactory
 
 
 class RatedPolicy(Policy):
@@ -25,7 +26,7 @@ class RatedPolicy(Policy):
             self.factory.mc_client.set(mc_key, 1, self.factory.interval)
         else:
             current_counter += 1
-            self.factory.mc_client.inrc(mc_key, 1)
+            self.factory.mc_client.incr(mc_key, 1)
         if current_counter > self.quota:
             raise PolicyError(self, 'max quota exceed')
         super(RatedPolicy, self).check_policy(identity)
