@@ -7,7 +7,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 
-class TestRatedPolicy(unittest.TestCase):
+class TestGenerationedPolicy(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -21,6 +21,3 @@ class TestRatedPolicy(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-
