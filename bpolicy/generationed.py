@@ -33,7 +33,7 @@ class GenerationedPolicy(Policy):
             current_counter = latest_counter + 1
             current_discount = latest_discount
         elif current_period - latest_period < self.factory.max_keep_traking:
-            current_discount = (latest_discount * self.factory.discount if latest_counter > self.quota * latest_discount else latest_discount / self.factory.discount)
+            current_discount = latest_discount * self.factory.discount if latest_counter > self.quota * latest_discount else latest_discount / self.factory.discount
             current_discount = min(current_discount, 1)
 
         self.factory.mc_client.set(stats_mc_key, (current_discount, current_counter, current_timestamp), self.factory.interval * self.factory.max_keep_traking)
