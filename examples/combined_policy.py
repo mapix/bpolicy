@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import sys
+import os.path
 from datetime import time
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+
 from bpolicy.consts import MINUTE, HOUR
 from bpolicy.utils import FakeMC, chained_policy, silent_check
 from bpolicy import RatedPolicyFactory, TimedPolicyFactory, CERNetPolicyFactory, GenerationedPolicyFactory

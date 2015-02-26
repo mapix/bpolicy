@@ -11,9 +11,11 @@ class TimedPolicy(Policy):
 
     kind = POLICY_KIND.TIMED
 
+    def get_current_time(self):
+        return datetime.now().time()
+
     def check_policy(self, identity):
-        current_time = datetime.now().time()
-        if self.factory.start_time < current_time < self.factory.end_time:
+        if self.factory.start_time < self.get_current_time() < self.factory.end_time:
             self.discount_quota(self.factory.discount)
         super(TimedPolicy, self).check_policy(identity)
 
