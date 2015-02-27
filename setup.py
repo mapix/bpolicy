@@ -10,7 +10,7 @@ setup(
     author_email='mapix.me@gmail.com',
     packages=find_packages(),
     url='https://github.com/mapix/bpolicy',
-    description='A collection of basic policies for web application anti-spammer use.',
+    description='A collection of basic policies for resources anti-spammer',
     long_description=open('README.rst').read(),
     install_requires=['IPy==0.81'],
     license='MIT'
