@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 
-__all__ = ['PolicyError', 'DEFAULT_LOGGER_FORMATER',
-           'chained_policy', 'silent_check',
+__all__ = ['PolicyError',
            'Policy', 'PolicyFactory',
            'RatedPolicy', 'RatedPolicyFactory',
            'TimedPolicy', 'TimedPolicyFactory',
            'CERNetPolicy', 'CERNetPolicyFactory',
            'GenerationedPolicy', 'GenerationedPolicyFactory',
-           'SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'POLICY_KIND']
+           'SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'POLICY_KIND', 'DEFAULT_LOGGER_FORMATER',
+           'chained_policy', 'silent_check', 'is_private_ipaddr', 'is_cernet_ipaddr', 'load_cernet_data', 'load_cernet_data']
 
 
 from .error import PolicyError                         # NOQA
@@ -17,5 +17,5 @@ from .rated import RatedPolicy, RatedPolicyFactory     # NOQA
 from .timed import TimedPolicy, TimedPolicyFactory     # NOQA
 from .cernet import CERNetPolicy, CERNetPolicyFactory  # NOQA
 from .generationed import GenerationedPolicy, GenerationedPolicyFactory   # NOQA
-from .utils import FakeMC, chained_policy, silent_check                   # NOQA
 from .consts import SECOND, MINUTE, HOUR, DAY, WEEK, POLICY_KIND, DEFAULT_LOGGER_FORMATER  # NOQA
+from .utils import FakeMC, chained_policy, silent_check, is_private_ipaddr, is_cernet_ipaddr, load_cernet_data  # NOQA

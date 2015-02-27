@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import csv
-import IPy
-import os.path
-
 from .consts import POLICY_KIND
 from .base import Policy, PolicyFactory
+from .utils import load_cernet_data, is_cernet_ipaddr
 
 
 class CERNetPolicy(Policy):
@@ -16,14 +13,8 @@ class CERNetPolicy(Policy):
         self.discount = factory.discount
         super(CERNetPolicy, self).__init__(factory, next_policy)
 
-    def is_cernet_ipaddr(self, ipstr):
-        try:
-            return IPy.IP(ipstr) in self.factory.cernet_nets_set
-        except ValueError:
-            self.logger.error('parse ipaddress error, ipstr=%r', ipstr)
-
     def check_policy(self, identity):
-        if self.is_cernet_ipaddr(identity):
+        if is_cernet_ipaddr(identity):
             self.logger.debug('%r is valid cernet ipaddress, silent pass through', identity)
         else:
             self.logger.debug('%r is not valid cernet ipaddress, discount all successor policy quota by %s', identity, self.discount)
@@ -37,6 +28,4 @@ class CERNetPolicyFactory(PolicyFactory):
 
     def __init__(self, discount):
         self.discount = discount
-        cernet_resource = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/cernet_ip.csv')
-        cernet_nets = [r[0] for r in csv.reader(open(cernet_resource), delimiter='\t')]
-        self.cernet_nets_set = IPy.IPSet([IPy.IP('%s/%s' % (ip_net, (ip_net.count('.') + 1) * 8), make_net=True) for ip_net in cernet_nets])
+        load_cernet_data()
