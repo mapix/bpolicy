@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 import time
 
 from .consts import POLICY_KIND
@@ -26,9 +25,9 @@ class GenerationedPolicy(Policy):
         return int(time.time())
 
     def check_policy(self, identity):
-        stats_mc_key = self._gen_memcache_key(self.factory.mc_prefix, identity)
+        stats_store_key = self._gen_store_key(self.factory.store_prefix, identity)
         current_discount, current_counter, current_timestamp = (1, 1, self.get_current_timestamp())
-        latest_discount, latest_counter, latest_timestamp = self.factory.mc_client.get(stats_mc_key) or (current_discount, current_counter - 1, current_timestamp)
+        latest_discount, latest_counter, latest_timestamp = self.factory.store.get(stats_store_key) or (current_discount, current_counter - 1, current_timestamp)
         latest_period, current_period = latest_timestamp // self.factory.interval, current_timestamp // self.factory.interval
 
         if latest_period == current_period:
@@ -42,7 +41,7 @@ class GenerationedPolicy(Policy):
         else:
             self.logger.debug('initial a new generation')
 
-        self.factory.mc_client.set(stats_mc_key, (current_discount, current_counter, current_timestamp), self.factory.interval * self.factory.max_keep_traking)
+        self.factory.store.set(stats_store_key, (current_discount, current_counter, current_timestamp), self.factory.interval * self.factory.max_keep_traking)
 
         if current_counter > self.quota * current_discount:
             self.logger.debug('max quota encountered: %s / %s', current_counter, self.quota * current_discount)
@@ -55,10 +54,10 @@ class GenerationedPolicyFactory(PolicyFactory):
 
     policy_class = GenerationedPolicy
 
-    def __init__(self, quota, interval, discount, max_keep_traking, mc_client, mc_prefix=''):
+    def __init__(self, quota, interval, discount, max_keep_traking, store, store_prefix=''):
         self.quota = quota
         self.interval = interval
         self.discount = discount
         self.max_keep_traking = max_keep_traking
-        self.mc_client = mc_client
-        self.mc_prefix = mc_prefix
+        self.store = store
+        self.store_prefix = store_prefix

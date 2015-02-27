@@ -25,9 +25,9 @@ class Policy(object):
     def _gen_factory_signature(self):
         return md5(str(self.factory.__dict__)).hexdigest()[:7]
 
-    def _gen_memcache_key(self, mc_prefix, identity):
-        return '{mc_prefix}{service}:{kind}:{factory_signature}:{identity}'.format(
-            mc_prefix=self.factory.mc_prefix,
+    def _gen_store_key(self, store_prefix, identity):
+        return '{store_prefix}{service}:{kind}:{factory_signature}:{identity}'.format(
+            store_prefix=self.factory.store_prefix,
             service=self.service,
             kind=self.kind,
             factory_signature=self._gen_factory_signature(),

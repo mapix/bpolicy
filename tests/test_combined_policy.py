@@ -8,19 +8,19 @@ from mock import patch, Mock
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from bpolicy import MINUTE, HOUR
-from bpolicy import FakeMC, PolicyError, TimedPolicy
+from bpolicy import FakeStore, PolicyError, TimedPolicy
 from bpolicy import GenerationedPolicyFactory, RatedPolicyFactory, TimedPolicyFactory, CERNetPolicyFactory
 
 
 class TestCombinedPolicy(unittest.TestCase):
 
     def setUp(self):
-        self.mc_client = FakeMC()
+        self.store = FakeStore()
         self.mock_policy = Mock()
         self.cernet_policy_factory = CERNetPolicyFactory(discount=0.5)
-        self.rated_policy_factory = RatedPolicyFactory(interval=10 * MINUTE, quota=10, mc_client=self.mc_client)
+        self.rated_policy_factory = RatedPolicyFactory(interval=10 * MINUTE, quota=10, store=self.store)
         self.timed_policy_factory = TimedPolicyFactory(start_time=datetime_time(hour=0), end_time=datetime_time(hour=6), discount=0.4)
-        self.generationed_policy_factory = GenerationedPolicyFactory(quota=100, interval=1 * HOUR, discount=0.5, max_keep_traking=2, mc_client=self.mc_client)
+        self.generationed_policy_factory = GenerationedPolicyFactory(quota=100, interval=1 * HOUR, discount=0.5, max_keep_traking=2, store=self.store)
 
     @patch.object(TimedPolicy, 'get_current_time')
     def test_timed_and_rated_policy(self, get_current_time):
@@ -33,7 +33,7 @@ class TestCombinedPolicy(unittest.TestCase):
         self.assertRaises(PolicyError, timed_policy.check_policy, identity)
         self.assertRaises(PolicyError, timed_policy.check_policy, identity)
 
-        self.mc_client._incr_current_timestamp(self.rated_policy_factory.interval)
+        self.store._incr_current_timestamp(self.rated_policy_factory.interval)
         get_current_time.return_value = datetime_time(hour=4)
         for _ in range(int(self.rated_policy_factory.quota * self.timed_policy_factory.discount)):
             _rated_policy = self.rated_policy_factory.instance()

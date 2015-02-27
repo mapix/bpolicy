@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from datetime import datetime
 
 from .consts import POLICY_KIND

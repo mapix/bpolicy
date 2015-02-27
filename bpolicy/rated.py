@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from .consts import POLICY_KIND
 from .error import PolicyError
 from .base import Policy, PolicyFactory
@@ -21,15 +20,15 @@ class RatedPolicy(Policy):
         super(RatedPolicy, self).discount_quota(discount)
 
     def check_policy(self, identity):
-        mc_key = self._gen_memcache_key(self.factory.mc_prefix, identity)
-        current_counter = self.factory.mc_client.get(mc_key)
+        store_key = self._gen_store_key(self.factory.store_prefix, identity)
+        current_counter = self.factory.store.get(store_key)
         if current_counter is None:
             current_counter = 1
-            self.factory.mc_client.set(mc_key, 1, self.factory.interval)
+            self.factory.store.set(store_key, 1, self.factory.interval)
             self.logger.debug('initial current_counter to 1 for new interval')
         else:
             current_counter += 1
-            self.factory.mc_client.incr(mc_key, 1)
+            self.factory.store.incr(store_key, 1)
             self.logger.debug('incr current_counter from %s to %s', current_counter, current_counter + 1)
         if current_counter > self.quota:
             self.logger.debug('max quota encountered: %s / %s', current_counter, self.quota)
@@ -41,8 +40,8 @@ class RatedPolicyFactory(PolicyFactory):
 
     policy_class = RatedPolicy
 
-    def __init__(self, interval, quota, mc_client, mc_prefix=''):
+    def __init__(self, interval, quota, store, store_prefix=''):
         self.interval = interval
         self.quota = quota
-        self.mc_client = mc_client
-        self.mc_prefix = mc_prefix
+        self.store = store
+        self.store_prefix = store_prefix
