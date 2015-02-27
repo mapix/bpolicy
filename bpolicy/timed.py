@@ -16,7 +16,10 @@ class TimedPolicy(Policy):
 
     def check_policy(self, identity):
         if self.factory.start_time < self.get_current_time() < self.factory.end_time:
+            self.logger.debug('timed policy(%s to %s) encountered, discount all successor policy quota by %s', self.factory.start_time, self.factory.end_time, self.factory.discount)
             self.discount_quota(self.factory.discount)
+        else:
+            self.logger.debug('timed policy not encountered, silent pass through')
         super(TimedPolicy, self).check_policy(identity)
 
 

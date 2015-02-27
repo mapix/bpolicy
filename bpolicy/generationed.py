@@ -17,7 +17,9 @@ class GenerationedPolicy(Policy):
         super(GenerationedPolicy, self).__init__(factory, next_policy)
 
     def discount_quota(self, discount):
-        self.quota = self.quota * discount
+        origin_quota = self.quota
+        self.quota = int(self.quota * discount)
+        self.logger.debug('discount current quota from %s to %s', origin_quota, self.quota)
         super(GenerationedPolicy, self).discount_quota(discount)
 
     def get_current_timestamp(self):
@@ -32,13 +34,18 @@ class GenerationedPolicy(Policy):
         if latest_period == current_period:
             current_counter = latest_counter + 1
             current_discount = latest_discount
+            self.logger.debug('incr current_counter from %s to %s, keep current_discount %s', current_counter - 1, current_counter, current_discount)
         elif current_period - latest_period < self.factory.max_keep_traking:
             current_discount = latest_discount * self.factory.discount if latest_counter > self.quota * latest_discount else latest_discount / self.factory.discount
             current_discount = min(current_discount, 1)
+            self.logger.debug('max_keep_traking encountered, current_discount to %s', current_discount)
+        else:
+            self.logger.debug('initial a new generation')
 
         self.factory.mc_client.set(stats_mc_key, (current_discount, current_counter, current_timestamp), self.factory.interval * self.factory.max_keep_traking)
 
         if current_counter > self.quota * current_discount:
+            self.logger.debug('max quota encountered: %s / %s', current_counter, self.quota * current_discount)
             raise PolicyError(self, 'max quota exceed')
 
         super(GenerationedPolicy, self).check_policy(identity)

@@ -20,10 +20,13 @@ class CERNetPolicy(Policy):
         try:
             return IPy.IP(ipstr) in self.factory.cernet_nets_set
         except ValueError:
-            pass
+            self.logger.error('parse ipaddress error, ipstr=%r', ipstr)
 
     def check_policy(self, identity):
-        if not self.is_cernet_ipaddr(identity):
+        if self.is_cernet_ipaddr(identity):
+            self.logger.debug('%r is valid cernet ipaddress, silent pass through', identity)
+        else:
+            self.logger.debug('%r is not valid cernet ipaddress, discount all successor policy quota by %s', identity, self.discount)
             self.discount_quota(self.discount)
         super(CERNetPolicy, self).check_policy(identity)
 
