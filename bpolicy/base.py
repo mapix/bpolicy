@@ -14,8 +14,7 @@ class Policy(object):
         self.service = service
         logger_name = '{service}.{kind}'.format(service=service, kind=self.kind)
         self.logger = logger if logger else logging.getLogger(logger_name)
-        self.logger_handler = logging.NullHandler()
-        self.logger.addHandler(self.logger_handler)
+        self.logger.addHandler(logging.NullHandler())
 
     def discount_quota(self, discount):
         if self.next_policy:

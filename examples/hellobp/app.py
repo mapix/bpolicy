@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import web
 import logging
-import os.path
 from datetime import time
 from cStringIO import StringIO
-
-sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 
 def setup_bp_log(stream):
