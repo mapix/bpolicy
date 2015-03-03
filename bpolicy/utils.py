@@ -56,3 +56,13 @@ def is_private_ipaddr(ipstr):
         return IPy.IP(ipstr).iptype() == 'PRIVATE'
     except ValueError:
         pass
+
+
+def is_valid_ipaddr(ipstr):
+    success = False
+    try:
+        IPy.parseAddress(ipstr)
+        success = True
+    except ValueError:
+        pass
+    return success

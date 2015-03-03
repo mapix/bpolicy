@@ -8,7 +8,7 @@ __all__ = ['PolicyError',
            'CERNetPolicy', 'CERNetPolicyFactory',
            'GenerationedPolicy', 'GenerationedPolicyFactory',
            'SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'POLICY_KIND', 'DEFAULT_LOGGER_FORMATER',
-           'chained_policy', 'silent_check', 'is_private_ipaddr', 'is_cernet_ipaddr', 'load_cernet_data', 'load_cernet_data', 'memoize']
+           'chained_policy', 'silent_check', 'is_private_ipaddr', 'is_cernet_ipaddr', 'load_cernet_data', 'load_cernet_data', 'memoize', 'is_valid_ipaddr']
 
 
 from .error import PolicyError                         # NOQA
@@ -19,4 +19,4 @@ from .timed import TimedPolicy, TimedPolicyFactory     # NOQA
 from .cernet import CERNetPolicy, CERNetPolicyFactory  # NOQA
 from .generationed import GenerationedPolicy, GenerationedPolicyFactory   # NOQA
 from .consts import SECOND, MINUTE, HOUR, DAY, WEEK, POLICY_KIND, DEFAULT_LOGGER_FORMATER  # NOQA
-from .utils import chained_policy, silent_check, is_private_ipaddr, is_cernet_ipaddr, load_cernet_data, memoize  # NOQA
+from .utils import chained_policy, silent_check, is_private_ipaddr, is_cernet_ipaddr, load_cernet_data, is_valid_ipaddr, memoize  # NOQA

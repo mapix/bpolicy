@@ -6,7 +6,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from bpolicy.utils import is_cernet_ipaddr, is_private_ipaddr
+from bpolicy.utils import is_cernet_ipaddr, is_private_ipaddr, is_valid_ipaddr
 
 
 class TestUtils(unittest.TestCase):
@@ -27,6 +27,14 @@ class TestUtils(unittest.TestCase):
         assert is_private_ipaddr('10.0.2.15') is True
         assert is_private_ipaddr('192.168.0.100') is True
         assert is_private_ipaddr('124.205.66.195') is False
+
+
+    def test_is_valid_ipaddr(self):
+        assert is_valid_ipaddr('') is False
+        assert is_valid_ipaddr('N/A') is False
+        assert is_valid_ipaddr('unknow') is False
+        assert is_valid_ipaddr('10.0.2.15') is True
+        assert is_valid_ipaddr('124.205.66.195') is True
 
 
 if __name__ == '__main__':
