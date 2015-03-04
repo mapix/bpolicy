@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from .consts import POLICY_KIND
+from .consts import POLICY_KIND, DEFAULT_SERVICE
 from .base import Policy, PolicyFactory
 
 
@@ -26,7 +26,8 @@ class TimedPolicyFactory(PolicyFactory):
 
     policy_class = TimedPolicy
 
-    def __init__(self, start_time, end_time, discount):
+    def __init__(self, start_time, end_time, discount, service=DEFAULT_SERVICE):
         self.start_time = start_time
         self.end_time = end_time
         self.discount = discount
+        super(TimedPolicyFactory, self).__init__(service)

@@ -2,7 +2,7 @@
 
 import time
 
-from .consts import POLICY_KIND
+from .consts import POLICY_KIND, DEFAULT_SERVICE
 from .error import PolicyError
 from .base import Policy, PolicyFactory
 
@@ -11,9 +11,9 @@ class GenerationedPolicy(Policy):
 
     kind = POLICY_KIND.GENERATIONED
 
-    def __init__(self, factory, next_policy=None):
+    def __init__(self, factory, next_policy, service):
         self.quota = factory.quota
-        super(GenerationedPolicy, self).__init__(factory, next_policy)
+        super(GenerationedPolicy, self).__init__(factory, next_policy, service)
 
     def discount_quota(self, discount):
         origin_quota = self.quota
@@ -54,10 +54,11 @@ class GenerationedPolicyFactory(PolicyFactory):
 
     policy_class = GenerationedPolicy
 
-    def __init__(self, quota, interval, discount, max_keep_traking, store, store_prefix=''):
+    def __init__(self, quota, interval, discount, max_keep_traking, store, store_prefix='', service=DEFAULT_SERVICE):
         self.quota = quota
         self.interval = interval
         self.discount = discount
         self.max_keep_traking = max_keep_traking
         self.store = store
         self.store_prefix = store_prefix
+        super(GenerationedPolicyFactory, self).__init__(service)

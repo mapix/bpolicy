@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .consts import POLICY_KIND
+from .consts import POLICY_KIND, DEFAULT_SERVICE
 from .error import PolicyError
 from .base import Policy, PolicyFactory
 
@@ -9,9 +9,9 @@ class RatedPolicy(Policy):
 
     kind = POLICY_KIND.RATED
 
-    def __init__(self, factory, next_policy=None):
+    def __init__(self, factory, next_policy, service):
         self.quota = factory.quota
-        super(RatedPolicy, self).__init__(factory, next_policy)
+        super(RatedPolicy, self).__init__(factory, next_policy, service)
 
     def discount_quota(self, discount):
         origin_quota = self.quota
@@ -40,8 +40,9 @@ class RatedPolicyFactory(PolicyFactory):
 
     policy_class = RatedPolicy
 
-    def __init__(self, interval, quota, store, store_prefix=''):
+    def __init__(self, interval, quota, store, store_prefix='', service=DEFAULT_SERVICE):
         self.interval = interval
         self.quota = quota
         self.store = store
         self.store_prefix = store_prefix
+        super(RatedPolicyFactory, self).__init__(service)

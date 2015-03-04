@@ -3,17 +3,18 @@
 import logging
 from hashlib import md5
 
+from .consts import DEFAULT_SERVICE
+
 
 class Policy(object):
 
     kind = NotImplemented
 
-    def __init__(self, factory, next_policy=None, service='bpolicy', logger=None):
+    def __init__(self, factory, next_policy, service):
         self.factory = factory
         self.next_policy = next_policy
         self.service = service
-        logger_name = '{service}.{kind}'.format(service=service, kind=self.kind)
-        self.logger = logger if logger else logging.getLogger(logger_name)
+        self.logger = logging.getLogger('{service}.{kind}'.format(service=self.service, kind=self.kind))
         self.logger.addHandler(logging.NullHandler())
 
     def discount_quota(self, discount):
@@ -42,5 +43,8 @@ class PolicyFactory(object):
 
     policy_class = NotImplemented
 
-    def instance(self, next_policy=None, **kwargs):
-        return self.policy_class(self, next_policy, **kwargs)
+    def __init__(self, service=DEFAULT_SERVICE):
+        self.service = service
+
+    def instance(self, next_policy=None):
+        return self.policy_class(self, next_policy, self.service)

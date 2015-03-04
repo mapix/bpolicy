@@ -5,6 +5,8 @@ import logging
 from datetime import timedelta
 from collections import namedtuple
 
+DEFAULT_SERVICE = 'bpolicy'
+
 SECOND = int(timedelta(seconds=1).total_seconds())
 MINUTE = int(timedelta(minutes=1).total_seconds())
 HOUR = int(timedelta(hours=1).total_seconds())
