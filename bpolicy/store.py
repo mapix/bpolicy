@@ -14,6 +14,9 @@ class Store(object):
     def incr(self, key, step=1):
         raise NotImplementedError
 
+    def delete(self, key):
+        raise NotImplementedError
+
 
 class FakeStore(Store):
 
