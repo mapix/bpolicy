@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='bpolicy',
-    version='0.2.0',
+    version='0.2.1',
     author='mapix',
     author_email='mapix.me@gmail.com',
     packages=find_packages(),
