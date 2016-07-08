@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import division
+from __future__ import unicode_literals
+from past.utils import old_div
 import time
 
 from .consts import POLICY_KIND
@@ -35,7 +38,7 @@ class GenerationedPolicy(Policy):
             current_discount = latest_discount
             self.logger.debug('incr counter from %s to %s, keep current_discount %s', counter - 1, counter, current_discount)
         elif current_period - latest_period < self.factory.max_keep_traking:
-            current_discount = latest_discount * self.factory.discount if latest_counter > self.quota * latest_discount else latest_discount / self.factory.discount
+            current_discount = latest_discount * self.factory.discount if latest_counter > self.quota * latest_discount else old_div(latest_discount, self.factory.discount)
             current_discount = min(current_discount, 1)
             self.logger.debug('max_keep_traking encountered, current_discount to %s', current_discount)
         else:

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import division
+from __future__ import unicode_literals
+from builtins import range
+from past.utils import old_div
 import sys
 import os.path
 import unittest
@@ -42,13 +46,13 @@ class TestGenerationedPolicy(unittest.TestCase):
         self.store._incr_current_timestamp(self.factory.max_keep_traking * HOUR)
         _get_current_timestamp.return_value = self.store._get_current_timestamp()
 
-        for _ in range(min(int(int(self.factory.quota * self.factory.discount * self.factory.discount) / self.factory.quota), self.factory.quota)):
+        for _ in range(min(int(old_div(int(self.factory.quota * self.factory.discount * self.factory.discount), self.factory.quota)), self.factory.quota)):
             self.policy.check(self.identity)
 
         self.store._incr_current_timestamp(self.factory.max_keep_traking * HOUR)
         _get_current_timestamp.return_value = self.store._get_current_timestamp()
 
-        for _ in range(min(int(min(int(int(self.factory.quota * self.factory.discount * self.factory.discount) / self.factory.quota), self.factory.quota) / self.factory.discount), self.factory.quota)):
+        for _ in range(min(int(old_div(min(int(old_div(int(self.factory.quota * self.factory.discount * self.factory.discount), self.factory.quota)), self.factory.quota), self.factory.discount)), self.factory.quota)):
             self.policy.check(self.identity)
 
         self.store._incr_current_timestamp((self.factory.max_keep_traking + 1 )* HOUR)

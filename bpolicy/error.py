@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+from __future__ import unicode_literals
 class PolicyError(Exception):
 
     def __init__(self, policy, message):

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from builtins import str
+from builtins import object
 
 import logging
 from hashlib import md5
@@ -18,7 +21,7 @@ class Policy(object):
         self.logger.addHandler(logging.NullHandler())
 
     def _gen_signature(self):
-        return md5(str(self.factory.__dict__)).hexdigest()[:7]
+        return md5(str(self.factory.__dict__).encode()).hexdigest()[:7]
 
     def _gen_key(self, identity):
         return "bpolicy:{prefix}:{service}:{kind}:{signature}:{identity}".format(

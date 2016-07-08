@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from builtins import object
 
 from time import time
 
@@ -46,12 +48,12 @@ class FakeStore(Store):
             del self.cache[key]
 
     def _clear_cache(self, prefix=''):
-        for key in self.cache.keys():
+        for key in list(self.cache.keys()):
             if key.startswith(prefix):
                 del self.cache[key]
 
     def _check_expire(self):
-        for k in self.cache.keys():
+        for k in list(self.cache.keys()):
             timeout, value = self.cache[k]
             if timeout and self._get_current_timestamp() >= timeout:
                 del self.cache[k]

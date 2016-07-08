@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
+from __future__ import unicode_literals
+from distutils.core import setup
+from setuptools import find_packages
+
 
 setup(
     name='bpolicy',
-    version='0.2.1',
+    version='0.3.0',
     author='mapix',
     author_email='mapix.me@gmail.com',
     packages=find_packages(),

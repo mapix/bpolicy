@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 from datetime import datetime
 
 from .consts import POLICY_KIND
