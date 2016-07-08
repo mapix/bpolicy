@@ -36,6 +36,6 @@ Basic Example
     identity = "88.88.23.1"
     for i in range(100):
         if check_policy(identity):
-            print "success"
+            print("success")
         else:
-            print "banded"
+            print("banded")
