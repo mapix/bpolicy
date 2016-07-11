@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 from builtins import range
 
-import sys
-import os.path
 import unittest
 from mock import Mock
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from bpolicy import RatedPolicyFactory, PolicyError, MINUTE, FakeStore
 

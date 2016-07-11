@@ -9,3 +9,5 @@ dist/
 
 # Editor
 *.swp
+.cache/
+.tox/

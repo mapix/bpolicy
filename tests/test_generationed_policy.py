@@ -4,11 +4,8 @@ from __future__ import division
 from __future__ import unicode_literals
 from builtins import range
 from past.utils import old_div
-import sys
-import os.path
 import unittest
 from mock import patch, Mock
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from bpolicy import GenerationedPolicy, GenerationedPolicyFactory, FakeStore, PolicyError, HOUR
 

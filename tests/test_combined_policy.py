@@ -2,12 +2,9 @@
 from __future__ import unicode_literals
 from builtins import range
 
-import sys
-import os.path
 import unittest
 from datetime import time as datetime_time
 from mock import patch, Mock
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from bpolicy import MINUTE, HOUR
 from bpolicy import FakeStore, PolicyError, ClockPolicy
